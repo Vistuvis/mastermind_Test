@@ -9,7 +9,13 @@ class key_class
 {
     public:
         key_class(int x, colors i);
-        virtual ~key_class();
+        colors get_color();
+        int get_position();
+
+
+
+        void flag_setter(flag_state x);
+        flag_state flag_getter();
 
 
         void peak_keys();
@@ -23,6 +29,7 @@ class key_class
 
         int position;
         colors color_type;
+        flag_state flag_type;
         std::string color_reader(colors x);
 };
 

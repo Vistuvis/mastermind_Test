@@ -7,10 +7,9 @@ enum colors
    red, yellow, green, blue
 };
 
-enum FLAG_IDENTIFIERS
-{
-    black, white
-};
+enum flag_state{
 
+black, white, none
+};
 
 #endif // COLORS_H

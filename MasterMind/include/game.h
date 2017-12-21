@@ -14,13 +14,15 @@
 
 
 
-
 class game
 {
     public:
         game();
         virtual ~game();
         void run_game();
+
+        int black_flags = 0;
+        int white_flags = 0;
 
 
 
@@ -37,7 +39,6 @@ class game
     void guess_catcher();
     void guess_comparison();
     colors numberToColor(int x);
-
 
     int ATTEMPTS_COUNTER = 0;
 };
