@@ -2,6 +2,7 @@
 
 game::game()
 {
+    srand(time(NULL));
 
 
 }
@@ -44,20 +45,25 @@ while (true){
 
 void game::guess_comparison(){
 
-    for(int i =0; i<4;i++){ mastermind_key[i].flag_setter(none);}
+    for(int i =0; i<4;i++){ mastermind_key[i].flag_setter(none); mastermind_key[i].claimed = false;}
 
     for(int i =0; i<4;i++){
 
         for(int c = 0; c<4;c++){
             if (mastermind_key[i].get_color() == guesses[c].get_color() &&  mastermind_key[i].flag_getter() != black)
                 {
+// possibly set a hook to signify a mastermind key is claimed; move black flags up in algorithm binding everything to guessses
 
-                mastermind_key[i].flag_setter(white);
 
                 if(mastermind_key[i].get_position() == guesses[c].get_position())
                     {
                     mastermind_key[i].flag_setter(black);
+                    mastermind_key[i].claimed = true;
                     }
+                else if(mastermind_key[i].claimed == false){
+                    mastermind_key[i].flag_setter(white);
+                    mastermind_key[i].claimed = true;
+                }
 
                 }
 
@@ -106,17 +112,17 @@ void game::guess_catcher(){
 
 void game::key_generator(){
 
-     /*for(int i= 0; i<4;i++){
-        mastermind_key.push_back(key_class(1, red));
-        mastermind_key[i].peak_keys();
+     for(int i= 0; i<4;i++){
+        mastermind_key.push_back(key_class(i+1, colors(rand() % 4)));
+       // mastermind_key[i].peak_keys();
 
         // PUT RANDOM GENERATOR HERE
 
-    }*/
-    mastermind_key.push_back(key_class(1, red));
-    mastermind_key.push_back(key_class(2, blue));
-    mastermind_key.push_back(key_class(3, green));
-    mastermind_key.push_back(key_class(4, yellow));
+    }
+    //mastermind_key.push_back(key_class(1, red));
+    //mastermind_key.push_back(key_class(2, red));
+    //mastermind_key.push_back(key_class(3, green));
+    //mastermind_key.push_back(key_class(4, yellow));
 
 
 for(int i= 0; i<4;i++){
