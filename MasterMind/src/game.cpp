@@ -12,14 +12,47 @@ game::~game()
 }
 
 
+
+
+
+
+
 void game::run_game(){
 
 std::cout <<"hellow world\n";
-key_generator();
-guess_catcher();
+while (true){
+
+        if(ATTEMPTS_COUNTER =10){
+            std::cout << "you lost";
+        }
+
+        key_generator();
+        guess_catcher();
+        guess_comparison();
+}
+
+}
+
+
+
+
+
+void game::guess_comparison(){
+
+
+
 
 
 }
+
+
+
+
+
+
+
+
+
 
 
 void game::guess_catcher(){
@@ -47,7 +80,6 @@ void game::guess_catcher(){
 }
 
 
-
 void game::key_generator(){
 
      /*for(int i= 0; i<4;i++){
@@ -72,16 +104,19 @@ for(int i= 0; i<4;i++){
 
 colors game::numberToColor(int x){
 
+colors returnthis;
+
     switch (x){
 
-    case 1: return red; break;
-    case 2: return yellow; break;
-    case 3: return green; break;
-    case 4: return blue; break;
+    case 1: returnthis = red; break;
+    case 2: returnthis = yellow; break;
+    case 3: returnthis = green; break;
+    case 4: returnthis = blue; break;
     default: std::cout << "error"; break;
 
     }
 
+    return returnthis;
 
 }
 

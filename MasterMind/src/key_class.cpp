@@ -20,11 +20,12 @@ std::cout << "position =" << position << " color = " << color_reader(color_type)
 
 std::string key_class::color_reader(colors x){
 using namespace std;
+string returnthis;
 switch (x){
- case red : return "red";break;
- case blue : return "blue"; break;
- case yellow : return "yellow";break;
- case green : return "green"; break;
-
+    case red : returnthis = "red";break;
+    case blue : returnthis = "blue"; break;
+    case yellow : returnthis = "yellow";break;
+    case green : returnthis = "green"; break;
 }
+return returnthis;
 }
