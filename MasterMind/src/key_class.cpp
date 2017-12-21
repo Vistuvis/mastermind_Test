@@ -4,12 +4,51 @@ key_class::key_class(int x, colors i)
 {
     position = x;
     color_type = i;
+    flag_type = none;
 }
 
-key_class::~key_class()
-{
-    //dtor
+
+colors key_class::get_color(){
+
+
+    return color_type;
+
 }
+
+
+
+flag_state key_class::flag_getter(){
+
+
+return flag_type;
+
+
+}
+
+
+void key_class::flag_setter(flag_state x){
+
+flag_type = x;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+int key_class::get_position(){
+
+
+    return position;
+}
+
+
 
 void key_class::peak_keys(){
 
