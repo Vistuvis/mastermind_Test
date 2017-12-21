@@ -29,10 +29,14 @@ while (true){
         guess_catcher();
         guess_comparison();
         std::cout<<mastermind_key[0].flag_getter()<<" "<<mastermind_key[1].flag_getter()<<" "<< mastermind_key[2].flag_getter() << " " << mastermind_key[3].flag_getter() << std::endl;
+        ATTEMPTS_COUNTER++;
 
 }
 
 }
+
+
+
 
 
 
@@ -40,19 +44,22 @@ while (true){
 
 void game::guess_comparison(){
 
+    for(int i =0; i<4;i++){ mastermind_key[i].flag_setter(none);}
 
     for(int i =0; i<4;i++){
 
         for(int c = 0; c<4;c++){
-            if (mastermind_key[i].get_color() == guesses[c].get_color())
+            if (mastermind_key[i].get_color() == guesses[c].get_color() &&  mastermind_key[i].flag_getter() != black)
                 {
-                white_flags++;
+
                 mastermind_key[i].flag_setter(white);
+
                 if(mastermind_key[i].get_position() == guesses[c].get_position())
                     {
-                    white_flags--;
                     mastermind_key[i].flag_setter(black);
                     }
+
+                }
 
             }
         }
@@ -60,7 +67,7 @@ void game::guess_comparison(){
     }
 
 
-}
+
 
 
 
