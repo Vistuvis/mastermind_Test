@@ -16,6 +16,9 @@ class key_class
 
         void flag_setter(flag_state x);
         flag_state flag_getter();
+        bool claimed;
+
+
 
 
         void peak_keys();
@@ -26,6 +29,7 @@ class key_class
 
 
     private:
+
 
         int position;
         colors color_type;
