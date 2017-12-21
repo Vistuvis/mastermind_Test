@@ -42,11 +42,9 @@ int engine::run()
 
     sf::RenderWindow window(sf::VideoMode(320, Tries*32), "MasterMind");
     window.setFramerateLimit(10);
-    sf::RenderWindow startmenu(sf::VideoMode(320, Tries*32), " ", sf::Style::None);
-    sf::Vector2i windowpos(window.getPosition());
-    windowpos.x+=8;
-    windowpos.y+=31;
-    startmenu.setPosition(windowpos);
+    sf::RenderWindow startmenu(sf::VideoMode(320, Tries*32), "Menu", sf::Style::None);
+
+
 
 
 
@@ -56,6 +54,12 @@ int engine::run()
 
         while(startmenu.isOpen())
         {
+
+        sf::Vector2i windowpos(window.getPosition());
+        windowpos.x+=8;
+        windowpos.y+=31;
+        startmenu.setPosition(windowpos);
+
             sf::Texture TitleTexture;
         if (TitleTexture.loadFromFile("resources/Sprites/MasterMind_Title.png"))
         {
@@ -154,6 +158,11 @@ int engine::run()
         {
             //error
         }
+        sf::Texture exitgameTexture;
+        if (exitgameTexture.loadFromFile("resources/Sprites/MasterMind_Exit.png"))
+        {
+            //error
+        }
 
                                                                                                             //sprites
 
@@ -173,7 +182,9 @@ int engine::run()
         Orange.setTexture(OrangeTexture);
         sf::Sprite Pallete;
         Pallete.setTexture(choosecolors);
-
+        sf::Sprite Exit;
+        Exit.setTexture(exitgameTexture);
+        Exit.setPosition(0,Tries*32-32);
 
         sf::Event event;
         while(window.pollEvent(event))
@@ -194,6 +205,10 @@ int engine::run()
                     colorbuffers.push_back(colorselection);
                     currentselection++;
                 }
+                if (mousePosition.x<2 && mousePosition.y>Tries-2)
+                {
+                    startmenu.create(sf::VideoMode(320, Tries*32), " ", sf::Style::None);
+                }
 
             }
         }
@@ -210,9 +225,10 @@ int engine::run()
             window.draw(Background_S);
         }
 
+
+
         window.draw(Pallete);
-
-
+        window.draw(Exit);
 
 
         for(int i = 0; i<passwordlength; i++)
