@@ -9,7 +9,9 @@
             Green,
             Orange,
             Purple,
-            Nothing
+            Nothing,
+            Black,
+            White
         };
 
 class GridToken
@@ -17,7 +19,7 @@ class GridToken
     public:
         GridToken(int x, int y, int idtemp);
 
-        setcolor(color newcolor);
+        void setcolor(color newcolor);
 
         virtual ~GridToken();
 
