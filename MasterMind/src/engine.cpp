@@ -6,7 +6,10 @@ engine::engine()
 
 }
 
-int s_coordinate(int coordinate);                                                   //simplify coordinate
+int s_coordinate(int coordinate);                                               //simplify coordinate
+void check(int &a, int &b);
+
+std::vector<GRIDTOKEN_H::color> outcome_return(std::vector<GRIDTOKEN_H::color>);
 
 GRIDTOKEN_H::color compare(int x, int y);                                           //gets the color from the color pallete by location
 
@@ -14,17 +17,18 @@ int engine::run()
 {
 
 
-
+    int pix = 32;
     float Tries = 20;
     float passwordlength = 4;
 
-    Selectiongrid select(Tries, passwordlength);
+
 
 
 
 
     std::vector<GRIDTOKEN_H color> colorbuffers;
-    int currentselection = 0;
+    std::vector<GRIDTOKEN_H color> currentoutcome;
+
 
     sf::Vector2i mousePosition;
 
@@ -45,13 +49,11 @@ int engine::run()
     sf::RenderWindow startmenu(sf::VideoMode(320, Tries*32), "Menu", sf::Style::None);
 
 
+    while(window.isOpen()||startmenu.isOpen())
 
-
-
-    while(window.isOpen())
-    {
-
-
+        {
+            window.create(sf::VideoMode(320, Tries*32), "MasterMind");
+            startmenu.requestFocus();
         while(startmenu.isOpen())
         {
 
@@ -103,16 +105,30 @@ int engine::run()
                         window.close();
                     }
                     if (mousePosition.y>128 && mousePosition.y<256)
+                    {
+                        window.create(sf::VideoMode(320, Tries*32), "MasterMind");
+                        window.requestFocus();
                         startmenu.close();
+                    }
                 }
                 startmenu.clear();
                 startmenu.draw(Title);
                 startmenu.draw(Start);
                 startmenu.draw(Exit);
                 startmenu.display();
-
             }
         }
+
+    int currentselection = 0;
+    Selectiongrid select(Tries, passwordlength);
+    Selectiongrid Outcomes(Tries, passwordlength);
+
+
+    while(window.isOpen())
+    {
+        bool selected = false;
+
+
 
 
 
@@ -124,32 +140,47 @@ int engine::run()
             //error
         }
         sf::Texture BlueTexture;
-        if(BlueTexture.loadFromFile("resources/Sprites/MasterMind_Blue.png"))
+        if(BlueTexture.loadFromFile("resources/Sprites/MasterMind_Bluebutton.png"))
         {
             //error
         }
         sf::Texture RedTexture;
-        if(RedTexture.loadFromFile("resources/Sprites/MasterMind_Red.png"))
+        if(RedTexture.loadFromFile("resources/Sprites/MasterMind_Redbutton.png"))
         {
             //error
         }
         sf::Texture OrangeTexture;
-        if(OrangeTexture.loadFromFile("resources/Sprites/MasterMind_Orange.png"))
+        if(OrangeTexture.loadFromFile("resources/Sprites/MasterMind_Orangebutton.png"))
         {
             //error
         }
         sf::Texture GreenTexture;
-        if(GreenTexture.loadFromFile("resources/Sprites/MasterMind_Green.png"))
+        if(GreenTexture.loadFromFile("resources/Sprites/MasterMind_Greenbutton.png"))
         {
             //error
         }
         sf::Texture PurpleTexture;
-        if(PurpleTexture.loadFromFile("resources/Sprites/MasterMind_Purple.png"))
+        if(PurpleTexture.loadFromFile("resources/Sprites/MasterMind_Purplebutton.png"))
         {
             //error
         }
         sf::Texture YellowTexture;
-        if(YellowTexture.loadFromFile("resources/Sprites/MasterMind_Yellow.png"))
+        if(YellowTexture.loadFromFile("resources/Sprites/MasterMind_Yellowbutton.png"))
+        {
+            //error
+        }
+        sf::Texture CheckmarkTexture;
+        if(CheckmarkTexture.loadFromFile("resources/Sprites/MasterMind_Check.png"))
+        {
+            //error
+        }
+        sf::Texture PartCorrectTexture;
+        if(PartCorrectTexture.loadFromFile("resources/Sprites/MasterMind_PartCorrect.png"))
+        {
+            //error
+        }
+        sf::Texture Xtexture;
+        if(Xtexture.loadFromFile("resources/Sprites/MasterMind_X.png"))
         {
             //error
         }
@@ -163,6 +194,17 @@ int engine::run()
         {
             //error
         }
+        sf::Texture UndoTexture;
+        if (UndoTexture.loadFromFile("resources/Sprites/MasterMind_Undo.png"))
+        {
+            //error
+        }
+        sf::Texture EndturnTexture;
+        if (EndturnTexture.loadFromFile("resources/Sprites/MasterMind_EndTurn.png"))
+        {
+            //error
+        }
+
 
                                                                                                             //sprites
 
@@ -180,25 +222,49 @@ int engine::run()
         Purple.setTexture(PurpleTexture);
         sf::Sprite Orange;
         Orange.setTexture(OrangeTexture);
+        sf::Sprite Checkmark;
+        Checkmark.setTexture(CheckmarkTexture);
+        sf::Sprite Part;
+        Part.setTexture(PartCorrectTexture);
+        sf::Sprite X;
+        X.setTexture(Xtexture);
         sf::Sprite Pallete;
         Pallete.setTexture(choosecolors);
         sf::Sprite Exit;
         Exit.setTexture(exitgameTexture);
+        sf::Sprite Undo;
+        Undo.setTexture(UndoTexture);
+        sf::Sprite Endturn;
+        Endturn.setTexture(EndturnTexture);
+
+
+
+
+
+
+
         Exit.setPosition(0,Tries*32-32);
+        Undo.setPosition(16,128+60);
+        Endturn.setPosition(90,128+60);
 
         sf::Event event;
         while(window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+
+
             if (event.type == sf::Event::MouseButtonReleased)
             if (event.mouseButton.button == sf::Mouse::Left)
             {
+                selected = false;
+
                 mousePosition = sf::Mouse::getPosition(window);
                 mousePosition.x = s_coordinate(mousePosition.x);
                 mousePosition.y = s_coordinate(mousePosition.y);
 
                 colorselection = compare(mousePosition.x,mousePosition.y);
+                if (colorbuffers.size() <4)
                 if(colorselection!=GRIDTOKEN_H::Nothing)
                 {
                     select.setcolor(currentselection, colorselection);
@@ -208,10 +274,42 @@ int engine::run()
                 if (mousePosition.x<2 && mousePosition.y>Tries-2)
                 {
                     startmenu.create(sf::VideoMode(320, Tries*32), " ", sf::Style::None);
+                    window.close();
                 }
+                if (colorbuffers.size() > 0)
+                if ((sf::Mouse::getPosition(window).x<48 && sf::Mouse::getPosition(window).x>16) && (sf::Mouse::getPosition(window).y<128+60+32 && sf::Mouse::getPosition(window).y>128+60) )
+                    {
+                        colorbuffers.pop_back();
+                        currentselection--;
+                        select.setcolor(currentselection, GRIDTOKEN_H::Nothing);
+                    }
+                if (!(colorbuffers.size() <4))
+                if ((sf::Mouse::getPosition(window).x<48+64 && sf::Mouse::getPosition(window).x>16+64) && (sf::Mouse::getPosition(window).y<128+60+32 && sf::Mouse::getPosition(window).y>128+60) )
+                    {
+
+
+                        for (unsigned int i=0;i<colorbuffers.size();)
+                        {
+
+                            /* END TURN HERE!!! */
+                            colorbuffers.pop_back();
+                           // currentselection--;
+                           // select.setcolor(currentselection, GRIDTOKEN_H::Nothing);
+                           std::cout<<"\n"<<colorbuffers.size();
+                        }
+
+                    }
 
             }
         }
+        if (event.type == sf::Event::MouseButtonPressed)
+                if (event.mouseButton.button == sf::Mouse::Left)
+                {   mousePosition = sf::Mouse::getPosition(window);
+                    mousePosition.x = s_coordinate(mousePosition.x);
+                    mousePosition.y = s_coordinate(mousePosition.y);
+                    colorselection = compare(mousePosition.x,mousePosition.y);
+                    selected = true;
+                }
 
 
 
@@ -229,6 +327,69 @@ int engine::run()
 
         window.draw(Pallete);
         window.draw(Exit);
+        window.draw(Undo);
+        window.draw(Endturn);
+
+
+        Red.setPosition(0,0);
+        window.draw(Red);
+        Blue.setPosition(32,0);
+        window.draw(Blue);
+        Yellow.setPosition(64,0);
+        window.draw(Yellow);
+        Green.setPosition(96, 0);
+        window.draw(Green);
+        Purple.setPosition(0,32);
+        window.draw(Purple);
+        Orange.setPosition(32,32);
+        window.draw(Orange);
+
+        if (selected)
+        {
+            switch (colorselection)
+                {
+
+                    case GRIDTOKEN_H::Blue :
+                        Blue.rotate(180);
+                        Blue.setPosition(64,32);
+                        window.draw(Blue);
+                        Blue.rotate(180);
+                        break;
+                    case GRIDTOKEN_H::Red :
+                        Red.rotate(180);
+                        Red.setPosition(32,32);
+                        window.draw(Red);
+                        Red.rotate(180);
+                        break;
+                    case GRIDTOKEN_H::Yellow:
+                        Yellow.rotate(180);
+                        Yellow.setPosition(96,32);
+                        window.draw(Yellow);
+                        Yellow.rotate(180);
+                        break;
+                    case GRIDTOKEN_H::Green:
+                        Green.rotate(180);
+                        Green.setPosition(128,32);
+                        window.draw(Green);
+                        Green.rotate(180);
+                        break;
+                    case GRIDTOKEN_H::Purple:
+                        Purple.rotate(180);
+                        Purple.setPosition(32,64);
+                        window.draw(Purple);
+                        Purple.rotate(180);
+                        break;
+                    case GRIDTOKEN_H::Orange:
+                        Orange.rotate(180);
+                        Orange.setPosition(64,64);
+                        window.draw(Orange);
+                        Orange.rotate(180);
+                        break;
+                    default:
+                        break;
+                }
+
+        }
 
 
         for(int i = 0; i<passwordlength; i++)
@@ -238,7 +399,6 @@ int engine::run()
                 switch (select.getcolor(i, o))
                 {
                     case GRIDTOKEN_H::Blue :
-
                         Blue.setPosition((i*32)+128,o*32);
                         window.draw(Blue);
                         break;
@@ -270,18 +430,95 @@ int engine::run()
 
             }
         }
+            int blackposition =0;
+            int b2=0;
+            int w2=0;
+            int x2=0;
+            int whiteposition=0;
+            int xposition = 0;
+        for(int i = 0; i<Tries; i++)
+        {
 
+            for(int o = 0; o<passwordlength; o++)
+            {
+
+                switch (Outcomes.getcolor(o, i))
+                {
+                case GRIDTOKEN_H::Black:
+                    Checkmark.setPosition((256)+(blackposition*pix/2), (i*32)+(b2*pix/2));
+                    std::cout<<"\n"<<i<<" "<<o<<" "<<b2;
+                    window.draw(Checkmark);
+                    blackposition++;
+                    break;
+                case GRIDTOKEN_H::White:
+                    Part.setPosition((288)+(whiteposition*pix/2), (i*pix)+(w2*pix/2));
+                    window.draw(Part);
+                    whiteposition++;
+                    break;
+                case GRIDTOKEN_H::Nothing:
+
+                    xposition++;
+                    break;
+                default:
+                    break;
+                }
+                check(blackposition,b2);
+                check(whiteposition,w2);
+                check(xposition,x2);
+
+
+
+
+            }
+            blackposition = 0;
+            b2=0;
+            whiteposition=0;
+            w2=0;
+
+        }
+            blackposition = 0;
+            b2=0;
+            whiteposition=0;
+            w2=0;
                                                                                                             //Input Drawing
-
 
 
         window.display();
     }
 
 
+}
+
 
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 int s_coordinate(int coordinate)   //simplify coordinate
 {
@@ -350,9 +587,21 @@ GRIDTOKEN_H::color compare(int x, int y)
 
 
     }
-    std::cout<<"\n"<<x<<" "<<y;
 
     return returnthis;
+}
+
+void check (int & a, int & b)
+{
+    if (a>1)
+    {
+        a=0;
+        b++;
+    }
+}
+std::vector<GRIDTOKEN_H::color> outcome_return(std::vector<GRIDTOKEN_H::color> buffers)
+{
+    return buffers;
 }
 
 engine::~engine()
