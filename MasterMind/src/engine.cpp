@@ -125,17 +125,24 @@ int engine::run()
     GRIDTOKEN_H::color colorselection;
 
     std::vector<GRIDTOKEN_H color> colorbuffers;
+    bool won=false;
+    bool lost=false;
 
+    bool eventbuffered = false;
     game game1;
     while(window.isOpen())
     {
+
+
+
         bool selected = false;
 
 
 
 
 
-
+        if(currentselection>=Tries*4)
+            lost = true;
                                                                                                         //textures
 
         sf::Texture Background;
@@ -301,8 +308,14 @@ int engine::run()
                             }
 
                             flagselection+=4;
+                            if(currentoutcomes[0] == GRIDTOKEN_H::Black)
+                                if(currentoutcomes[1] == GRIDTOKEN_H::Black)
+                                if(currentoutcomes[2] == GRIDTOKEN_H::Black)
+                                if(currentoutcomes[3] == GRIDTOKEN_H::Black)
+                                    {won = true;
+                                    std::cout<<won;
 
-
+                                    }
                             for (int unsigned i=0;i<currentoutcomes.size();)
                             {
                                 currentoutcomes.pop_back();
@@ -310,6 +323,8 @@ int engine::run()
 
 
                             }
+
+
 
                     }
 
@@ -492,13 +507,40 @@ int engine::run()
             b2=0;
             whiteposition=0;
             w2=0;
-                                                                                                            //Input Drawing
+
+    sf::Texture loseTexture;
+    if (!loseTexture.loadFromFile("resources/Sprites/MasterMind_lose.png"))
+    {
+        //error
+    }
+    sf::Texture winTexture;
+    if (!winTexture.loadFromFile("resources/Sprites/MasterMind_win.png"))
+    {
+        //error
+    }
+
+    sf::Sprite win;
+    win.setTexture(winTexture);
+    sf::Sprite lose;
+    lose.setTexture(loseTexture);
+
+    if (won)
+    {
+        window.draw(win);
+        std::cout<<" WIN ";
+    }
+    if (lost)
+    {
+        window.draw(lose);
+    }                                                                                          //Input Drawing
 
 
         window.display();
+
+
+
+
     }
-
-
 }
 
 
