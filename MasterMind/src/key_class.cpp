@@ -1,14 +1,14 @@
 #include "key_class.h"
 
-key_class::key_class(int x, colors i)
+key_class::key_class(int x, GRIDTOKEN_H::color i)
 {
     position = x;
     color_type = i;
-    flag_type = none;
+    flag_type = GRIDTOKEN_H::Nothing;
 }
 
 
-colors key_class::get_color(){
+GRIDTOKEN_H::color key_class::get_color(){
 
 
     return color_type;
@@ -17,7 +17,7 @@ colors key_class::get_color(){
 
 
 
-flag_state key_class::flag_getter(){
+GRIDTOKEN_H::color key_class::flag_getter(){
 
 
 return flag_type;
@@ -26,7 +26,7 @@ return flag_type;
 }
 
 
-void key_class::flag_setter(flag_state x){
+void key_class::flag_setter(GRIDTOKEN_H::color x){
 
 flag_type = x;
 
@@ -53,18 +53,7 @@ int key_class::get_position(){
 void key_class::peak_keys(){
 
 
-std::cout << "position =" << position << " color = " << color_reader(color_type) << std::endl;
+//std::cout << "position =" << position << " color = " << color_reader(color_type) << std::endl;
 
 }
 
-std::string key_class::color_reader(colors x){
-using namespace std;
-string returnthis;
-switch (x){
-    case red : returnthis = "red";break;
-    case blue : returnthis = "blue"; break;
-    case yellow : returnthis = "yellow";break;
-    case green : returnthis = "green"; break;
-}
-return returnthis;
-}

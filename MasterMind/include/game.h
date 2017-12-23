@@ -7,7 +7,7 @@
 #include <vector>
 #include <key_class.h>
 #include <colors.h>
-
+#include "GridToken.h"
 
 
 
@@ -19,11 +19,11 @@ class game
     public:
         game();
         virtual ~game();
-        void run_game();
 
+        std::vector<GRIDTOKEN_H::color> run_game(std::vector<GRIDTOKEN_H::color>);
         int black_flags = 0;
         int white_flags = 0;
-
+        std::vector<key_class> mastermind_key;
 
 
 
@@ -33,12 +33,12 @@ class game
     private:
 
 
-    std::vector<key_class> mastermind_key;
+
     std::vector<key_class> guesses;
     void key_generator();
-    void guess_catcher();
+    void guess_catcher(std::vector<GRIDTOKEN_H::color>);
     void guess_comparison();
-    colors numberToColor(int x);
+    GRIDTOKEN_H::color numberToColor(int x);
 
     int ATTEMPTS_COUNTER = 0;
 };

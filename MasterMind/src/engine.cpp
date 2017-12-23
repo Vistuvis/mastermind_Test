@@ -26,13 +26,11 @@ int engine::run()
 
 
 
-    std::vector<GRIDTOKEN_H color> colorbuffers;
-    std::vector<GRIDTOKEN_H color> currentoutcome;
+
 
 
     sf::Vector2i mousePosition;
 
-    GRIDTOKEN_H::color colorselection;
 
 
 
@@ -120,13 +118,19 @@ int engine::run()
         }
 
     int currentselection = 0;
+    int flagselection = 0;
     Selectiongrid select(Tries, passwordlength);
     Selectiongrid Outcomes(Tries, passwordlength);
 
+    GRIDTOKEN_H::color colorselection;
 
+    std::vector<GRIDTOKEN_H color> colorbuffers;
+
+    game game1;
     while(window.isOpen())
     {
         bool selected = false;
+
 
 
 
@@ -288,15 +292,24 @@ int engine::run()
                     {
 
 
-                        for (unsigned int i=0;i<colorbuffers.size();)
-                        {
 
-                            /* END TURN HERE!!! */
-                            colorbuffers.pop_back();
-                           // currentselection--;
-                           // select.setcolor(currentselection, GRIDTOKEN_H::Nothing);
-                           std::cout<<"\n"<<colorbuffers.size();
-                        }
+
+                            std::vector<GRIDTOKEN_H::color> currentoutcomes = game1.run_game(colorbuffers);
+                            for (int unsigned i=0;i<colorbuffers.size();i++)
+                            {
+                                Outcomes.setcolor(flagselection+i, currentoutcomes[i]);
+                            }
+
+                            flagselection+=4;
+
+
+                            for (int unsigned i=0;i<currentoutcomes.size();)
+                            {
+                                currentoutcomes.pop_back();
+                                colorbuffers.pop_back();
+
+
+                            }
 
                     }
 
@@ -446,7 +459,6 @@ int engine::run()
                 {
                 case GRIDTOKEN_H::Black:
                     Checkmark.setPosition((256)+(blackposition*pix/2), (i*32)+(b2*pix/2));
-                    std::cout<<"\n"<<i<<" "<<o<<" "<<b2;
                     window.draw(Checkmark);
                     blackposition++;
                     break;

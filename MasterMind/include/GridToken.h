@@ -4,11 +4,11 @@
         enum color{
 
             Red,
-            Yellow,
             Blue,
+            Yellow,
             Green,
-            Orange,
             Purple,
+            Orange,
             Nothing,
             Black,
             White

@@ -4,11 +4,9 @@
 
 int main()
 {
-    //engine game;
-    game game1;
-
-    game1.run_game();
+    engine game;
 
 
-    return 0;//game.run();
+
+    return  game.run();
 }

@@ -8,7 +8,7 @@ GridToken::GridToken(int x, int y, int idtemp)
     tokencolor = Nothing;
 }
 
-GridToken::setcolor(color newcolor)
+void GridToken::setcolor(color newcolor)
 {
     tokencolor = newcolor;
 }

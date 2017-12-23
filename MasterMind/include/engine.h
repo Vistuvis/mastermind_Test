@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
-
+#include "game.h"
 
 class engine
 {

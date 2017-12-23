@@ -3,19 +3,18 @@
 #include <colors.h>
 #include <iostream>
 #include <string>
-
-
+#include "GridToken.h"
 class key_class
 {
     public:
-        key_class(int x, colors i);
-        colors get_color();
+        key_class(int x, GRIDTOKEN_H::color i);
+        GRIDTOKEN_H::color get_color();
         int get_position();
 
 
 
-        void flag_setter(flag_state x);
-        flag_state flag_getter();
+        void flag_setter(GRIDTOKEN_H::color x);
+        GRIDTOKEN_H::color flag_getter();
         bool claimed;
 
 
@@ -32,9 +31,9 @@ class key_class
 
 
         int position;
-        colors color_type;
-        flag_state flag_type;
-        std::string color_reader(colors x);
+        GRIDTOKEN_H::color color_type;
+        GRIDTOKEN_H::color flag_type;
+        std::string color_reader(GRIDTOKEN_H::color x);
 };
 
 #endif // KEY_CLASS_H
