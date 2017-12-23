@@ -11,12 +11,13 @@ void check(int &a, int &b);
 
 std::vector<GRIDTOKEN_H::color> outcome_return(std::vector<GRIDTOKEN_H::color>);
 
-GRIDTOKEN_H::color compare(int x, int y);                                           //gets the color from the color pallete by location
+GRIDTOKEN_H::color compare(int x, int y);
+sf::Clock clock1;                                        //gets the color from the color pallete by location
 
 int engine::run()
 {
 
-
+    int dancestep = 0;
     int pix = 32;
     float Tries = 20;
     float passwordlength = 4;
@@ -127,8 +128,6 @@ int engine::run()
     std::vector<GRIDTOKEN_H color> colorbuffers;
     bool won=false;
     bool lost=false;
-
-    bool eventbuffered = false;
     game game1;
     while(window.isOpen())
     {
@@ -518,16 +517,51 @@ int engine::run()
     {
         //error
     }
+    sf::Texture DanceTexture;
+    if (!DanceTexture.loadFromFile("resources/Sprites/Dance.png"))
+    {
+        //error
+    }
 
     sf::Sprite win;
     win.setTexture(winTexture);
     sf::Sprite lose;
+
     lose.setTexture(loseTexture);
+    sf::Sprite dance;
+    dance.setTexture(DanceTexture);
+
+
+
+
 
     if (won)
     {
         window.draw(win);
         std::cout<<" WIN ";
+
+        dance.setTextureRect(sf::IntRect(dancestep*32,0,32,32));
+        sf::Time time = sf::milliseconds(150);
+        dance.setPosition(64,256);
+        dance.setScale(4,4);
+        if (clock1.getElapsedTime() >= time){
+
+        dancestep++;
+        clock1.restart();
+        }
+        if (dancestep>=7)
+            dancestep=0;
+
+        window.draw(dance);
+
+
+
+
+
+
+
+
+
     }
     if (lost)
     {
