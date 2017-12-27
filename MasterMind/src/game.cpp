@@ -25,7 +25,7 @@ std::vector<GRIDTOKEN_H::color> game::run_game(std::vector<GRIDTOKEN_H::color> g
 
         guess_comparison();
 
-                                                        std::cout<<"\n"<<mastermind_key[0].flag_getter()<<" "<<mastermind_key[1].flag_getter()<<" "<< mastermind_key[2].flag_getter() << " " << mastermind_key[3].flag_getter() << std::endl;
+                                                 //       std::cout<<"\n"<<mastermind_key[0].flag_getter()<<" "<<mastermind_key[1].flag_getter()<<" "<< mastermind_key[2].flag_getter() << " " << mastermind_key[3].flag_getter() << std::endl;
 
         for(int unsigned i=0;i<guess_input.size();)
         {
@@ -65,9 +65,8 @@ void game::guess_comparison(){
         for(int c = 0; c<4;c++)
             {
 
-
             if (mastermind_key[i].get_color() == guesses[c].get_color() &&  (mastermind_key[i].claimed == false && guesses[c].claimed ==false))
-                {                    //std::cout<<"\nHere\n";
+                {                    std::cout<<"\n On here: I:"<<i<<" C:"<<c<<"\n";
 
 
                 if(mastermind_key[i].get_position() == guesses[c].get_position())
@@ -84,17 +83,30 @@ void game::guess_comparison(){
 
 
                     onlycolor = true;
-                    for (int u=c+1; u< (guesses.size());u++)
+                    for (int unsigned u=c+1; u< (guesses.size());u++)
                         {
                             std::cout<<" \nI:"<<i<<" C:"<<c<<" U:"<<u<<"/"<<guesses.size()-1;
 
                             if(guesses[u].get_color()==mastermind_key[i].get_color())
                                 if(guesses[u].claimed==false)
-                                onlycolor = false;
+                                {
+                                    if (mastermind_key[u].get_color() == guesses[u].get_color())
+                                    {
+
+                                    mastermind_key[u].flag_setter(GRIDTOKEN_H::Black);
+                                    mastermind_key[u].claimed = true;
+                                    guesses[u].claimed = true;
+                                    }
+                                    else{
+                                        onlycolor = false;
+                                        }
+                                }
+
 
                         }
                         if(onlycolor)
                         {
+                            std::cout<<"\n On here: I:"<<i<<" C:"<<c<<"\n";
                             mastermind_key[i].claimed = true;
                             guesses[c].claimed = true;
                             mastermind_key[i].flag_setter(GRIDTOKEN_H::White);
@@ -106,6 +118,7 @@ void game::guess_comparison(){
                     }
 
                 }
+                std::cout<<"\n On here: I:"<<i<<" C:"<<c<<" is nothing\n";
 
             }
         }
@@ -157,6 +170,12 @@ void game::guess_catcher(std::vector<GRIDTOKEN_H::color> guess_thrower){
 
 void game::key_generator(){
 
+  //  mastermind_key.push_back(key_class(1, GRIDTOKEN_H::Red));
+  //  mastermind_key.push_back(key_class(2, GRIDTOKEN_H::Purple));
+ //   mastermind_key.push_back(key_class(3, GRIDTOKEN_H::Green));
+ //   mastermind_key.push_back(key_class(4, GRIDTOKEN_H::Red));
+
+
      for(int i= 0; i<4;i++){
         mastermind_key.push_back(key_class(i+1, GRIDTOKEN_H::color(rand() % 6)));
         std::cout<<mastermind_key[i].get_color()<<" ";
@@ -165,10 +184,6 @@ void game::key_generator(){
         // PUT RANDOM GENERATOR HERE
 
     }
-  //  mastermind_key.push_back(key_class(1, GRIDTOKEN_H::Red));
-  //  mastermind_key.push_back(key_class(2, GRIDTOKEN_H::Red));
-  //  mastermind_key.push_back(key_class(3, GRIDTOKEN_H::Blue));
-  //  mastermind_key.push_back(key_class(4, GRIDTOKEN_H::Blue));
 
 
 for(int i= 0; i<4;i++){
